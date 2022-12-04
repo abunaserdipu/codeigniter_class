@@ -26,11 +26,12 @@
         <a href="/users/add">New User</a>
     </div>
     <h1>User Entry Form</h1>
+    <?php $validation = \Config\Services::validation(); ?>
     <form action="<?= site_url('/users/submit') ?>" method="post">
         <label for="">Name:</label>
         <input type="text" name="name" id="">
-        <?php if ($validation->geError('name')) : ?>
-            <p><?= $error = $validation->geError('name') ?></p>
+        <?php if ($validation->getError('name')) : ?>
+            <p><?= $error = $validation->getError('name') ?></p>
         <?php endif; ?>
         <label for="">Email:</label>
         <input type="email" name="email" id="">
