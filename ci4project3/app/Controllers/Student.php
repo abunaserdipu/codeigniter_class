@@ -19,6 +19,7 @@ class Student extends ResourceController
         $modeldata = new StudentModel();
         $data['students'] = $modeldata->findAll();
         $data['title'] = "All Students";
+        $data['copyright'] = "Copyright &copy; 2022 All rights reserved";
         // print_r($data);
         return view("students/student_list", $data);
     }
@@ -40,7 +41,9 @@ class Student extends ResourceController
      */
     public function new()
     {
-        //
+        $data['title'] = "Add Students";
+        $data['copyright'] = "Copyright &copy; 2022 All rights reserved";
+        return view("students/add_student", $data);
     }
 
     /**
@@ -50,7 +53,19 @@ class Student extends ResourceController
      */
     public function create()
     {
-        //
+        $model = new StudentModel();
+        // $data['name'] = $this->request->getPost('name');
+        // $data['phone'] = $this->request->getPost('phone');
+        // $data['email'] = $this->request->getPost('email');
+        // $data['address'] = $this->request->getPost('address');
+
+        //getPost work for post method 
+        $data = $this->request->getPost();
+        if ($model->save($data)) { //save method used for save data in database
+            return redirect("Student"); //redirect to a specific page
+            // return redirect()->back(); //back method used for back current page
+            // return $this->index(); //index method used for show index page but some problem in this method that it will submit previous data after reload
+        };
     }
 
     /**
@@ -60,7 +75,11 @@ class Student extends ResourceController
      */
     public function edit($id = null)
     {
-        //
+        $model = new StudentModel();
+        $data['student'] = $model->find($id);
+        $data['title'] = "All Students";
+        $data['copyright'] = "Copyright &copy; 2022 All rights reserved";
+        return view("students/edit_student", $data);
     }
 
     /**
@@ -70,7 +89,11 @@ class Student extends ResourceController
      */
     public function update($id = null)
     {
-        //
+        $model = new StudentModel();
+        $data = $this->request->getPost();
+        if ($model->update($id, $data)) { //update method should gave two parameters one id and second data and sequence must be maintain first will pass id second will data
+            return redirect()->to("student");
+        }
     }
 
     /**
@@ -80,6 +103,8 @@ class Student extends ResourceController
      */
     public function delete($id = null)
     {
-        //
+        $model = new StudentModel();
+        $model->delete($id);
+        return redirect()->to("student");
     }
 }
